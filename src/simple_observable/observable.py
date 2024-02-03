@@ -87,3 +87,13 @@ class Observable:
             return
         for listener_id in self.ids_by_topic[topic]:
             self.listeners[listener_id].callback(event)
+
+    def get_state(self) -> dict:
+        topics = dict(
+            (topic, list(listeners)) for topic, listeners in self.ids_by_topic.items()
+        )
+        listeners = [
+            {"id": listener.id, "topic": listener.topic}
+            for listener in self.listeners.values()
+        ]
+        return {"topics": topics, "listeners": listeners}
